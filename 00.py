@@ -35,7 +35,7 @@ frame_resized = rescaleFrame(img)
 cv.imshow('Resized',frame_resized)
 cv.waitKey(0)
 
-# --------------------------------------------------Blank Page--------------------------------------------------#
+#--------------------------------------------------Blank Page--------------------------------------------------#
 
 blank = np.zeros((500,500,3),dtype='uint8') #blank page
 cv.imshow('Blank',blank)
@@ -58,7 +58,7 @@ cv.putText(blank,"Hello",(0,255),cv.FONT_HERSHEY_TRIPLEX,1.0,(0,255,0),2)
 cv.imshow('Text',blank)
 cv.waitKey(0)
 
-# --------------------------------------------------Crop--------------------------------------------------#
+#--------------------------------------------------Crop--------------------------------------------------#
 
 img = cv.imread('m5python/Aj phoom-my work/023546_school/R.jpg')
 # Select rows 80 to 280 and columns 150 to 330
@@ -68,7 +68,7 @@ cv.imshow("cropped", cropped_image)
 cv.imwrite("Cropped Image.jpg", cropped_image) # Saves the new image
 cv.waitKey(0)
 
-# --------------------------------------------------Rotation--------------------------------------------------#
+#--------------------------------------------------Rotation--------------------------------------------------#
 
 # Load the image
 img = cv.imread('m5python/Aj phoom-my work/023546_school/R.jpg')
@@ -92,3 +92,30 @@ cv.imshow("Original", img)
 cv.imshow("Rotated Image", rotated_image)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+# --------------------------------------------------Mouse Click Show text--------------------------------------------------#
+
+img = cv.imread('R.jpg')
+
+def click_position(event, x, y, flags, param):
+    # Check if the event is a left mouse button click
+    if event == cv.EVENT_LBUTTONDOWN:
+        # Draw the text 'totoro' on the image at the clicked coordinates (x, y)
+        # 1: Font type (FONT_HERSHEY_SIMPLEX)
+        # 3: Font scale (size)
+        # (255, 223, 194): Color in BGR format (Light blue/Lavender)
+        # 3: Thickness of the text lines
+        cv.putText(img, 'totoro', (x, y), 1, 3, (255, 223, 194), 3)
+        
+        cv.imshow('click puttext', img)
+
+
+cv.imshow('click puttext', img)
+
+# Link the mouse callback function to the specific window named 'click puttext'
+cv.setMouseCallback('click puttext', click_position)
+
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+
