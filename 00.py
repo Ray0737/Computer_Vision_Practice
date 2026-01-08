@@ -93,9 +93,10 @@ cv.imshow("Rotated Image", rotated_image)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-# --------------------------------------------------Mouse Click Event--------------------------------------------------#
+#--------------------------------------------------Mouse Click Event (1)--------------------------------------------------#
 
 #Show text, Show RGB of cord, Show Coord when pressed
+
 img = cv.imread('R.jpg')
 
 def click_position(event, x, y, flags, param):
@@ -125,4 +126,36 @@ cv.setMouseCallback('click puttext', click_position)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
+#--------------------------------------------------Mouse Click Event (2)--------------------------------------------------#
+
+#Show cord when pressed and link all pressed dots
+
+img = cv.imread('R.jpg')
+points = []
+
+def click_position(event, x, y, flags, param):
+    if event == cv.EVENT_LBUTTONDOWN:
+
+        blue = img[y, x, 0]
+        green = img[y, x, 1]
+        red = img[y, x, 2]
+        
+        color_text = f"R:G:B={red},{green},{blue}"
+        
+        cv.circle(img, (x, y), 10, (0, 255, 0), 5)
+        
+        points.append((x, y))
+        if len(points) >= 2:
+            # Draw a red line between the last two points
+            cv.line(img, points[-1], points[-2], (0, 0, 255), 3)
+
+        cv.putText(img, color_text, (x, y - 15), 1, 1.5, (255, 255, 255), 2)
+        
+        # Refresh the window
+        cv.imshow('Interactive Window', img)
+
+cv.imshow('Interactive Window', img)
+cv.setMouseCallback('Interactive Window', click_position)
+cv.waitKey(0)
+cv.destroyAllWindows()
 
