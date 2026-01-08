@@ -93,29 +93,36 @@ cv.imshow("Rotated Image", rotated_image)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-# --------------------------------------------------Mouse Click Show text--------------------------------------------------#
+# --------------------------------------------------Mouse Click Event--------------------------------------------------#
 
+#Show text, Show RGB of cord, Show Coord when pressed
 img = cv.imread('R.jpg')
 
 def click_position(event, x, y, flags, param):
-    # Check if the event is a left mouse button click
+    # Check specifically for a left mouse button click
     if event == cv.EVENT_LBUTTONDOWN:
-        # Draw the text 'totoro' on the image at the clicked coordinates (x, y)
-        # 1: Font type (FONT_HERSHEY_SIMPLEX)
-        # 3: Font scale (size)
-        # (255, 223, 194): Color in BGR format (Light blue/Lavender)
-        # 3: Thickness of the text lines
-        cv.putText(img, 'totoro', (x, y), 1, 3, (255, 223, 194), 3)
+        # Extract individual BGR color values from the pixel at the clicked (y, x) position
+        # OpenCV uses (row, col) indexing, which maps to (y, x)
+        blue = img[y, x, 0]  # Channel 0 is Blue
+        green = img[y, x, 1] # Channel 1 is Green
+        red = img[y, x, 2]   # Channel 2 is Red
         
+        # Format strings for the color values and the coordinate positions
+        text = ("R:G:B=%s,%s,%s" % (red, green, blue))
+        cord = ("x = %s,y=%s" % (x, y))
+
+        display_text = f'totoro {cord} : {text}'
+        
+        # Draw the combined text onto the image
+        # Parameters: (image, text, position, font, scale, BGR_color, thickness)
+        cv.putText(img, display_text, (x, y), 1, 3, (255, 223, 194), 3)
+
         cv.imshow('click puttext', img)
 
 
 cv.imshow('click puttext', img)
-
-# Link the mouse callback function to the specific window named 'click puttext'
 cv.setMouseCallback('click puttext', click_position)
-
-
 cv.waitKey(0)
 cv.destroyAllWindows()
+
 
