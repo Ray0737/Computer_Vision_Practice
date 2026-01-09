@@ -550,8 +550,6 @@ plt.show()
 
 #--------------------------------------------------Morphological--------------------------------------------------#
 
-import cv2 as cv
-
 # Dictionary defining coin properties based on their radius in pixels
 # Adjust these min/max values if detection is inaccurate
 coin_values = {
@@ -647,3 +645,4 @@ while True:
 
 cap.release()
 cv.destroyAllWindows()
+
