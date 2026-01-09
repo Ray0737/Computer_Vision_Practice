@@ -422,6 +422,9 @@ imgth = np.zeros([x, y], np.uint8)
 # Manual thresholding logic
 for i in range(x):
     for j in range(y):
+        # verify if both i and j have the brightness over 128
+        #If the pixel is darker than the midpoint (128), it sets the new image pixel (imgth) to 0 (Black).
+        #If the pixel is 128 or brighter, it sets it to 1 (White).
         if img[i, j] < 128:
             imgth[i, j] = 0
         elif img[i, j] >= 128:
@@ -431,4 +434,118 @@ for i in range(x):
 plt.imshow(imgth, cmap="gray")
 plt.show()
 
+#--------------------------------------------------Mathplot (3)--------------------------------------------------#
 
+#threshold
+
+original_img = cv.imread("R.jpg")
+
+# 2. CONVERT TO GRAYSCALE
+# Thresholding only works on single-channel images (grayscale).
+# If the image fails to load, original_img will be None.
+if original_img is None:
+    print("Error: Could not find 'R.jpg'. Check the file path.")
+else:
+    gray_img = cv.cvtColor(original_img, cv.COLOR_BGR2GRAY)
+
+    # 3. DEFINE THRESHOLD VALUES
+    # These are the 'cutoff' points. 
+    # Lower values (75) let more light in; higher values (230) make it stricter.
+    # Simply put, lower thresholds yield lighter images, higher thresholds yield darker images.
+    thresh_values = [75, 100, 128, 180, 230]
+
+    # Set up the display window size
+    plt.figure(figsize=(15, 8))
+
+    for i, val in enumerate(thresh_values):
+        
+        # cv.threshold logic:
+        # If a pixel is brighter than 'val', it becomes 255 (White).
+        # If it is darker, it becomes 0 (Black).
+        # '_' is a placeholder for the first return value which we don't need here.
+        _, result = cv.threshold(gray_img, val, 255, cv.THRESH_BINARY)
+        
+        # 5. CREATE SUBPLOTS
+        # This organizes the images in a grid. 
+        # 231 means: 2 rows, 3 columns, and this is position 'i + 1'
+        plt.subplot(2, 3, i + 1)
+        
+        # Add a title to each image to show the threshold used
+        plt.title(f"Threshold: {val}")
+        
+        # Hide the X and Y graph coordinates for a cleaner look
+        plt.xticks([]), plt.yticks([])
+        
+        # Display the result
+        plt.imshow(result, cmap="gray")
+
+    # 6. SHOW THE ORIGINAL AS THE LAST PLOT
+    # This helps you compare the results to the source image
+    plt.subplot(2, 3, 6)
+    plt.title("Original Gray")
+    plt.xticks([]), plt.yticks([])
+    plt.imshow(gray_img, cmap="gray")
+
+    # Adjust layout so titles don't overlap and show the window
+    plt.tight_layout()
+    plt.show()
+
+#--------------------------------------------------Mathplot (4)--------------------------------------------------#
+
+#threshold types
+
+# Load the image and immediately convert it to grayscale
+img = cv.imread("R.jpg")
+gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+thresh_values = [75, 100, 128, 180, 230]
+
+plt.figure(figsize=(15, 10))
+
+for i in range(len(thresh_values)):
+    # cv.threshold(src, thresh, maxval, type)
+    # Pixels > thresh become 255 (white); others become 0 (black)
+    _, result = cv.threshold(gray_img, thresh_values[i], 255, cv.THRESH_BINARY)
+    
+    # Create a subplot for each simple threshold result
+    plt.subplot(3, 3, i + 1)
+    plt.title("Simple Thresh: %d" % thresh_values[i])
+    plt.xticks([]), plt.yticks([]) 
+    plt.imshow(result, cmap="gray")
+
+# 3. ADAPTIVE THRESHOLDING (From your second and third ref)
+# Unlike simple thresholding, these methods calculate the cutoff locally for each block
+
+# Method A: Adaptive Mean
+# Calculates threshold based on the average of the block area
+res_mean = cv.adaptiveThreshold(gray_img, 255, cv.ADAPTIVE_THRESH_MEAN_C, 
+                                cv.THRESH_BINARY, 11, 2)
+
+# Method B: Adaptive Gaussian
+# Calculates threshold based on a weighted sum of the block area (often cleaner)
+res_gauss = cv.adaptiveThreshold(gray_img, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                 cv.THRESH_BINARY, 11, 2)
+
+# 4. DISPLAY ADAPTIVE RESULTS
+# Show Adaptive Mean in position 7
+plt.subplot(3, 3, 7)
+plt.title("Adaptive Mean")
+plt.xticks([]), plt.yticks([])
+plt.imshow(res_mean, cmap="gray")
+
+# Show Adaptive Gaussian in position 8
+plt.subplot(3, 3, 8)
+plt.title("Adaptive Gauss")
+plt.xticks([]), plt.yticks([])
+plt.imshow(res_gauss, cmap="gray")
+
+# Show Original Grayscale in position 9 for comparison
+plt.subplot(3, 3, 9)
+plt.title("Original Gray")
+plt.xticks([]), plt.yticks([])
+plt.imshow(gray_img, cmap="gray")
+
+plt.tight_layout()
+plt.show()
+
+#--------------------------------------------------Mathplot (5)--------------------------------------------------#
