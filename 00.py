@@ -358,6 +358,58 @@ while True:
 cap.release()
 cv.destroyAllWindows()
 
+#--------------------------------------------------Mathplot (0)--------------------------------------------------#
+
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+
+plt.plot(x, y, label='Growth', color='blue', marker='o')
+plt.title("Simple Line Plot")
+plt.xlabel("X-Axis")
+plt.ylabel("Y-Axis")
+plt.legend()
+plt.show()
+
+#--------------------------------------------------Mathplot (1)--------------------------------------------------#
+
+#subplot
+
+import matplotlib.pyplot as plt
+import cv2 as cv
+
+img = cv.imread('R.jpg')
+
+# 2. Create the first subplot in a 1x3 grid
+# Arguments: (rows, columns, index)
+# 'title' sets the label above the image.
+# 'xticks' and 'yticks' are set to empty lists [] to hide the pixel coordinate scales.
+plt.subplot(1, 3, 1, title=" BGR ", xticks=[], yticks=[])
+
+# Matplotlib expects RGB (Red-Green-Blue).
+# Because 'img' is currently BGR, the Blue and Red channels are swapped, 
+# making people look blue/orange.
+plt.imshow(img)
+
+# 3. Use NumPy Slicing to fix color on the fly
+# plt.subplot(1, 3, 2) moves to the middle position.
+plt.subplot(1, 3, 2, title=" RGB ", xticks=[], yticks=[])
+
+# Slicing explained: [rows, columns, channels]
+# [:, :, ::-1] means: take all rows, all columns, but reverse the 3rd dimension.
+# This flips index 0 (Blue) with index 2 (Red), resulting in RGB.
+plt.imshow(img[:, :, ::-1])
+
+# 4. Use OpenCV's built-in conversion function
+# This is the "standard" way to convert color spaces in computer vision projects.
+# cv.COLOR_BGR2RGB is a flag that tells the function how to remap the array.
+img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+
+# Select the third position in the grid.
+plt.subplot(1, 3, 3, title=" RGB cvt ", xticks=[], yticks=[])
+
+plt.imshow(img_rgb)
+
+plt.show()
 
 
 
