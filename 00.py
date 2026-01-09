@@ -1,5 +1,7 @@
 import cv2 as cv
 import numpy as np
+import random
+import mathplotlib as plt
 
 #--------------------------------------------------Image Show--------------------------------------------------#
 img = cv.imread("m5python/Aj phoom-my work/023546_school/R.jpg")
@@ -191,5 +193,53 @@ cv.imshow('Interactive Window', img)
 cv.setMouseCallback('Interactive Window', click_position)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+#--------------------------------------------------Mouse Click Event (3)--------------------------------------------------#
+
+#Draw a rectangle shape by every i random a new color.
+
+# Create a black square canvas (600x600 pixels, 3 color channels)
+img = np.zeros((600,600,3), dtype=np.uint8)
+drawing = False      # Becomes True when you press the left button
+ix, iy = -1, -1      # Starting (initial) x, y coordinates
+ex, ey = -1, -1      # Ending (current) x, y coordinates
+
+# Pick a random color in BGR format (Blue, Green, Red)
+current_color = (random.randint(0,255), random.randint(0,255), random.randint(0,255)) 
+
+def click_position(event, x, y, flags, param):
+    global ix, iy, ex, ey, drawing, current_color
+
+    if event == cv.EVENT_LBUTTONDOWN:
+        drawing = True
+        ix, iy = x, y  # Lock the starting point
+        ex, ey = x, y  # Initialize the end point at the start point
+        current_color = (random.randint(0,255), random.randint(0,255), random.randint(0,255)) 
+
+    elif event == cv.EVENT_MOUSEMOVE:
+        if drawing:    
+            ex, ey = x, y  
+
+    elif event == cv.EVENT_LBUTTONUP:
+        drawing = False
+        ex, ey = x, y
+        # PERMANENTLY draw the final rectangle onto the 'img' canvas
+        cv.rectangle(img, (ix, iy), (ex, ey), current_color, 2)
+
+cv.namedWindow("homework")
+cv.setMouseCallback("homework", click_position)
+
+
+while True:
+    display_img = img.copy() 
+    if drawing:
+        cv.rectangle(display_img, (ix, iy), (ex, ey), current_color, 2)
+    cv.imshow("homework", display_img)
+    # If 'ESC' (key 27) is pressed, close the program
+    if cv.waitKey(10) == 27:  
+        break
+
+cv.destroyAllWindows()
+
 
 
