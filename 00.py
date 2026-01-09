@@ -288,12 +288,13 @@ cv.imshow('AND', bitwise_and)
 cv.imshow('OR', bitwise_or)
 cv.imshow('NOT', bitwise_not)
 cv.imshow('XOR', bitwise_xor)
-# cv.imshow('origin', img3)
-# cv.imshow('detect color mask', mask)
-# cv.imshow('result', result)
+cv.imshow('origin', img3)
+cv.imshow('detect color mask', mask)
+cv.imshow('result', result)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
+
 
 
 
