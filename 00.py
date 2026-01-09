@@ -295,6 +295,69 @@ cv.imshow('result', result)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
+#--------------------------------------------------Bitwise &  Color (1)--------------------------------------------------#
+
+# HSV and masking from Cam
+
+# Initialize the webcam (0 is usually the default built-in camera)
+cap = cv.VideoCapture(0)
+
+# 1. DEFINE COLOR THRESHOLDS
+# We use HSV (Hue, Saturation, Value) because it is more robust to lighting changes.
+# Format: [Hue (0-179), Saturation (0-255), Value (0-255)]
+colors = {
+    "Green": (np.array([35, 60, 40]), np.array([85, 255, 255])),
+    "Gray":  (np.array([0, 0, 50]), np.array([180, 30, 200])),
+    "White": (np.array([0, 0, 200]), np.array([180, 30, 255]))
+}
+
+if not cap.isOpened():
+    print("Error: Could not open webcam.")
+    exit()
+
+while True:
+    # Capture frame-by-frame from the webcam
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame.")
+        break
+
+    # 2. DEFINE REGION OF INTEREST (ROI)
+    # This limits detection to a specific box to save processing power.
+    # roi_coords is for drawing: (x1, y1, x2, y2)
+    roi_coords = (180, 10, 400, 450) 
+    
+
+    cv.rectangle(frame, (roi_coords[0], roi_coords[1]), (roi_coords[2], roi_coords[3]), (0, 255, 0), 2)
+    
+    # Crop the image: frame[y_start:y_end, x_start:x_end]
+    roi = frame[10:450, 180:400]
+    
+    # 3. COLOR CONVERSION
+    # Convert the cropped BGR image from the camera into the HSV color space
+    hsv_roi = cv.cvtColor(roi, cv.COLOR_BGR2HSV)
+
+    # 4. ITERATIVE COLOR FILTERING
+    for name, (lower, upper) in colors.items():
+        
+        # Create a Mask: Pixels inside the range become White (255), outside become Black (0)
+        mask = cv.inRange(hsv_roi, lower, upper)
+        
+        # Bitwise AND: Keep only the pixels from the 'roi' where the 'mask' is White.
+        # This effectively hides everything except the detected color.
+        result = cv.bitwise_and(roi, roi, mask=mask)
+        
+        # Show a separate window for each color (Green LEGO, Gray LEGO, etc.)
+        cv.imshow(f'{name} LEGO', result)
+
+    cv.imshow('Original (with ROI box)', frame)
+
+    if cv.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv.destroyAllWindows()
+
 
 
 
