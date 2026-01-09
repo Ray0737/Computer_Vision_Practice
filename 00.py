@@ -374,9 +374,6 @@ plt.show()
 
 #subplot
 
-import matplotlib.pyplot as plt
-import cv2 as cv
-
 img = cv.imread('R.jpg')
 
 # 2. Create the first subplot in a 1x3 grid
@@ -411,5 +408,27 @@ plt.imshow(img_rgb)
 
 plt.show()
 
+#--------------------------------------------------Mathplot (2)--------------------------------------------------#
+
+#Gray Mask
+# Load the image and convert it to grayscale
+img = cv.imread("R.jpg")
+img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+# Get dimensions and create a blank canvas for the thresholded image
+x, y = img.shape[:2]
+imgth = np.zeros([x, y], np.uint8)
+
+# Manual thresholding logic
+for i in range(x):
+    for j in range(y):
+        if img[i, j] < 128:
+            imgth[i, j] = 0
+        elif img[i, j] >= 128:
+            imgth[i, j] = 1
+
+# Display the result
+plt.imshow(imgth, cmap="gray")
+plt.show()
 
 
