@@ -93,7 +93,7 @@ cv.imshow("Rotated Image", rotated_image)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-#--------------------------------------------------Mouse Click Event (1)--------------------------------------------------#
+#--------------------------------------------------Mouse Click Event (0)--------------------------------------------------#
 
 #Show text, Show RGB of cord, Show Coord when pressed
 
@@ -124,6 +124,39 @@ def click_position(event, x, y, flags, param):
 cv.imshow('click puttext', img)
 cv.setMouseCallback('click puttext', click_position)
 cv.waitKey(0)
+cv.destroyAllWindows()
+
+#--------------------------------------------------Mouse Click Event (1)--------------------------------------------------#
+
+img = cv.imread('R.jpg')
+
+def click_position(event, x, y, flags, param):
+    if event == cv.EVENT_LBUTTONDOWN:
+        # Correct BGR indexing: img[row, col] -> img[y, x]
+        blue = img[y, x, 0]
+        green = img[y, x, 1]
+        red = img[y, x, 2]
+        
+        # Create a display window for the color
+        imgcolor = np.zeros([500, 500, 3], np.uint8)
+        imgcolor[:] = [blue, green, red]
+        
+
+        color_text = f"BGR: ({blue}, {green}, {red})"
+        cv.putText(imgcolor, color_text, (50, 250), 
+                   cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+        
+        cv.imshow("Selected Color", imgcolor)
+
+# Create a named window first so the callback attaches correctly
+cv.namedWindow('Color Picker')
+cv.setMouseCallback('Color Picker', click_position)
+
+while True:
+    cv.imshow('Color Picker', img)
+    if cv.waitKey(1) & 0xFF == ord('q'):
+        break
+
 cv.destroyAllWindows()
 
 #--------------------------------------------------Mouse Click Event (2)--------------------------------------------------#
@@ -158,4 +191,5 @@ cv.imshow('Interactive Window', img)
 cv.setMouseCallback('Interactive Window', click_position)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
 
