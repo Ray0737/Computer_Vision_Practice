@@ -1,10 +1,14 @@
 import cv2 as cv
+import datetime
+import time
 
 vid_capture = cv.VideoCapture(0)
 ret, frame1 = vid_capture.read()
 ret, frame2 = vid_capture.read()
 
 while(vid_capture.isOpened()):
+    now = datetime.datetime.now()
+    
     ret, frame = vid_capture.read()
     if ret == True:
         motiondiff = cv.absdiff(frame1, frame2)
@@ -19,7 +23,9 @@ while(vid_capture.isOpened()):
             (x, y, w, h) = cv.boundingRect(contour)
             if cv.contourArea(contour) < 2500:
                 continue
-            cv.rectangle(frame1, (x, y), (x+w, y+h), (0, 0, 255), 5)  
+            cv.rectangle(frame1, (x, y), (x+w, y+h), (0, 0, 255), 5)
+            cv.putText(frame1, f"Alert - Current Time: {now.hour:02}:{now.minute:02}:{now.second:02}" , (15, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+        
         cv.imshow('Frame', frame1)
         frame1 = frame2
         ret, frame2 = vid_capture.read()
