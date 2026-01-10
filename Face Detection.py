@@ -33,11 +33,9 @@ else:
 
 cv.imshow("Face detect",frame_resized)
 cv.waitKey(0)
-
 cv.destroyAllWindows()
 
 #--------------------------------------------------Face Detection (live cam)--------------------------------------------------#
-
 cap = cv.VideoCapture(0)
 xml_path = cv.data.haarcascades + 'haarcascade_frontalface_default.xml'
 face_cascde = cv.CascadeClassifier(xml_path)
@@ -59,4 +57,25 @@ while (cap.isOpened()):
 
 # Remember to release the capture and close windows when done
 cap.release()
+cv.destroyAllWindows()
+
+#--------------------------------------------------Eye Detection (pic)--------------------------------------------------#
+
+img = cv.imread("C:/Users/LENOVO/Documents/Lieutenant Hecker/Primary Data\Digital Data/77745.jpg")
+
+xml_path = cv.data.haarcascades + 'haarcascade_eye_tree_eyeglasses.xml'
+eye_cascde = cv.CascadeClassifier(xml_path)
+
+gray_img = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
+
+scale = 1.1
+minNeighbor = 10
+eye_detect = eye_cascde.detectMultiScale(gray_img, scale, minNeighbor)
+
+print(eye_detect)
+for (x, y, w, h) in eye_detect:
+    cv.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), thickness=2)
+
+cv.imshow("eye detect", img)
+cv.waitKey(0)
 cv.destroyAllWindows()
