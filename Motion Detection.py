@@ -17,7 +17,7 @@ while(vid_capture.isOpened()):
         thresh, result = cv.threshold(blur, 20, 255, cv.THRESH_BINARY)
         dilation = cv.dilate(result, None, iterations=3)
         contours, hierarchy = cv.findContours(dilation, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
-        draw_contour = cv.drawContours(frame1, contours, -1, (255, 0, 0), 2)
+        #draw_contour = cv.drawContours(frame1, contours, -1, (255, 0, 0), 2)
         
         for contour in contours:
             (x, y, w, h) = cv.boundingRect(contour)
@@ -35,3 +35,4 @@ while(vid_capture.isOpened()):
 
 vid_capture.release()
 cv.destroyAllWindows()
+
