@@ -550,8 +550,9 @@ plt.show()
 
 #--------------------------------------------------Morphological--------------------------------------------------#
 
-# Dictionary defining coin properties based on their radius in pixels
-# Adjust these min/max values if detection is inaccurate
+# Coin Counter
+
+# value of each coin in terms of range
 coin_values = {
     '1': {'min': 27, 'max': 28, 'value': 1},
     '2': {'min': 29, 'max': 33, 'value': 2},
@@ -559,38 +560,38 @@ coin_values = {
 }
 
 def classify_coin(radius):
-    """Returns the coin label if the radius falls within a defined range."""
     for label, info in coin_values.items():
+        # check the min and max radius based on the dict 
+        # Label = 1,2,10 | info = min max value
         if info['min'] <= radius <= info['max']:
             return label
     return None
 
 # Load the video file
-cap = cv.VideoCapture("coinn.mp4")
+cap = cv.VideoCapture('m5python/Aj phoom-my work/023546_school/coinn.mp4')
 previous_coins = {}
 
-# Create a circular kernel for morphological operations (noise removal)
-kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5))
+# Smooting the pic 
+kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5)) 
 
 while True:
     ret, frame = cap.read()
     if not ret:
         break
 
-    # 1. Pre-processing
+    #Pre-processing set up
     roi = frame[:1080, 0:1920]  # Define Region of Interest
     gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)  # Convert to Grayscale
-    blur = cv.GaussianBlur(gray, (11, 11), 0)   # Smooth image to reduce noise
+    blur = cv.GaussianBlur(gray, (11, 11), 0)   # Smooth image to reduce noise-
     
     # Use Otsu's Thresholding to create a binary (black & white) image
     _, thresh = cv.threshold(blur, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
 
-    # 2. Morphology: Clean up the binary image
-    # OPEN removes small white noise; CLOSE fills small holes inside the coins
-    opened = cv.morphologyEx(thresh, cv.MORPH_OPEN, kernel, iterations=1)
-    closed = cv.morphologyEx(opened, cv.MORPH_CLOSE, kernel, iterations=2)
+    # Morphology: Clean up the binary image
+    opened = cv.morphologyEx(thresh, cv.MORPH_OPEN, kernel, iterations=1) # remove small noise
+    closed = cv.morphologyEx(opened, cv.MORPH_CLOSE, kernel, iterations=2) # fill in hole in white
 
-    # 3. Contour Detection: Find the shapes of the coins
+    # Contour Detection: Find the shapes of the coins
     contours, _ = cv.findContours(closed.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     coins = {}
@@ -645,4 +646,5 @@ while True:
 
 cap.release()
 cv.destroyAllWindows()
+
 
