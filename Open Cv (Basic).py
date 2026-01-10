@@ -549,6 +549,36 @@ plt.tight_layout()
 plt.show()
 
 #--------------------------------------------------Morphological--------------------------------------------------#
+# Demo
+img = cv.imread("R.jpg", 0) # The '0' loads it as grayscale directly
+
+# 2. Convert to Binary (Morphological ops work best on black/white images)
+_, mask = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
+
+# 3. Create the Kernel
+# This is a 5x5 matrix of ones. A larger kernel means a stronger effect.
+kernel = np.ones((5, 5), np.uint8)
+
+# 4. Apply the Transformations
+erosion = cv.erode(mask, kernel, iterations=1)         # Makes white parts thinner
+dilation = cv.dilate(mask, kernel, iterations=1)       # Makes white parts thicker
+opening = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)   # Erosion then Dilation (removes noise)
+closing = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel) # Dilation then Erosion (fills holes)
+
+# 5. Display the Results
+titles = ['Original Mask', 'Erosion', 'Dilation', 'Opening', 'Closing']
+images = [mask, erosion, dilation, opening, closing]
+
+plt.figure(figsize=(15, 6))
+for i in range(5):
+    plt.subplot(1, 5, i+1)
+    plt.imshow(images[i], 'gray')
+    plt.title(titles[i])
+    plt.xticks([]), plt.yticks([])
+
+plt.tight_layout()
+plt.show()
+#--------------------------------------------------Morphological + Kernel + Thresholding + Contour--------------------------------------------------#
 
 # Coin Counter
 
@@ -646,4 +676,5 @@ while True:
 
 cap.release()
 cv.destroyAllWindows()
+
 
