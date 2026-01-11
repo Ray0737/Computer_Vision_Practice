@@ -46,6 +46,10 @@ A comprehensive toolkit for Computer Vision tasks ranging from basic image proce
 
 ---
 
-## ⚠️ Deployment Note:
+## 📥 Installation & Usage
 
-When deploying to a new server, please **verify all image file paths** (e.g., `pic\...`) to ensure that every picture displays correctly across the site.
+### 1. Install Dependencies
+```bash
+pip install opencv-contrib-python 
+pip install numpy
+```
