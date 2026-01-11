@@ -34,3 +34,9 @@ A comprehensive toolkit for Computer Vision tasks ranging from basic image proce
 pip install opencv-contrib-python 
 pip install numpy
 ```
+
+---
+
+## ⚠️ Deployment Note:
+
+When deploying to a new code space, please **verify all image and video file paths** (e.g., `pic\...`) to ensure that every picture displays correctly across the site.
