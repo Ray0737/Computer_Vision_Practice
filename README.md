@@ -8,25 +8,6 @@ A comprehensive toolkit for Computer Vision tasks ranging from basic image proce
 
 ---
 
-## 🛠 Features
-
-### 🖼️ Image & Video Editing
-* **Pre-processing:** Grayscaling, Gaussian Blur, Canny Edge Detection, and Dilations.
-* **Transformations:** Resizing, cropping, rotating, and Perspective Wrapping.
-* **Bitwise Operations:** Masking and combining images for overlay effects.
-
-### 👤 Face Detection & Recognition
-* **Haar Cascades:** Real-time detection of faces, eyes, and smiles.
-* **LBPH (Local Binary Patterns Histograms):** Train the system to recognize specific individuals by name.
-* **Deep Learning (DNN):** Implementation of SSD-based face detection for better accuracy in low light.
-
-### 🏃 Motion Detection & Security
-* **Frame Differencing:** Identify movement by calculating the absolute difference between frames.
-* **Contour Detection:** Automatic bounding-box creation around moving entities.
-* **Logging:** Logic to trigger "Record" or "Alert" when motion exceeds a specific threshold.
-
----
-
 ## 📂 Repository Structure
 
 
