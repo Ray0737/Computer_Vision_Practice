@@ -29,13 +29,23 @@ A comprehensive toolkit for Computer Vision tasks ranging from basic image proce
 
 ## 📂 Repository Structure
 
-```text
-.
-├── 📁 01-Image-Basics        # Resizing, cropping, and color spaces
-├── 📁 02-Video-Processing    # FPS handling, writing video files, overlays
-├── 📁 03-Face-Recognition    # Training scripts and detection logic
-├── 📁 04-Motion-Detection    # Background subtraction and security logic
-├── 📁 assets                 # Sample images/videos for testing
-├── 📁 models                 # Pre-trained .xml and .caffemodel files
-├── requirements.txt          # Project dependencies
-└── main.py                   # Unified entry point (optional)
+
+| Detail | Value |
+| :--- | :--- |
+| **Topic** |  Computer Vision |
+| **023546_school** | Senior Classwork(1) |
+| **work** | Senior Classwork(2) |
+| **Edge Detection** | Sobel, Laplacian, Canny, and Hough |
+| **Face & Eye Detection** | Face Detection using live feed and pic |
+| **Face Recog(Live)** | Face Recognition using live feed (Trained Model) |
+| **Face Recog(Test)** | Kokowa Game (Face Recognition & Motion Detect) |
+| **Face Recog(Train)** | Face Recognition AI Trainer |
+| **Motion** | Motion Detection using live feed |
+| **Open Cv (Basic)** | Fundemental Commands |
+| **Summary Open Cv** | Short Summary of code and syntax |
+
+---
+
+## ⚠️ Deployment Note:
+
+When deploying to a new server, please **verify all image file paths** (e.g., `pic\...`) to ensure that every picture displays correctly across the site.
