@@ -2,7 +2,7 @@ import cv2
 import os
 
 # --- Configuration ---
-CLASS_ID = 1         # The '1' in 1.00
+CLASS_ID = int(input("Enter Capute ID: "))         # The '1' in 1.00
 START_INDEX = 0       # The '00' in 1.00
 TOTAL_IMAGES = 200    # How many images you want to take
 SAVE_PATH = "data"    # Folder name
@@ -48,4 +48,5 @@ while count < TOTAL_IMAGES:
 # Cleanup
 cap.release()
 cv2.destroyAllWindows()
+
 print(f"Finished! Captured {count} images.")
